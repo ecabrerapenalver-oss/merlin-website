@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merlin PowerBI — AI Data Analyst for Power BI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E3000F;
+    --red-dark: #b0000b;
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #181818;
+    --border: #2a2a2a;
+    --text: #e8e8e8;
+    --muted: #888;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 14px;
+    font-weight: 500; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--red); color: var(--white);
+    border: none; padding: 10px 24px; border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--red-dark); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 60% 60% at 70% 50%, rgba(227,0,15,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(227,0,15,0.1); border: 1px solid rgba(227,0,15,0.3);
+    color: var(--red); padding: 6px 14px; border-radius: 2px;
+    font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 32px; width: fit-content;
+  }
+  .hero-tag::before { content: '●'; font-size: 8px; animation: blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 140px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--white);
+    max-width: 900px;
+    margin-bottom: 32px;
+  }
+  h1 em { color: var(--red); font-style: normal; }
+
+  .hero-sub {
+    font-size: 20px; color: var(--muted); max-width: 560px;
+    line-height: 1.7; margin-bottom: 48px; font-weight: 300;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+
+  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--red); color: var(--white);
+    padding: 16px 36px; border-radius: 4px;
+    font-size: 16px; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+  .btn-ghost {
+    color: var(--text); padding: 16px 36px;
+    border: 1px solid var(--border); border-radius: 4px;
+    font-size: 16px; font-weight: 500; text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-ghost:hover { border-color: var(--muted); color: var(--white); }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 80px;
+    border-top: 1px solid var(--border); padding-top: 40px;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 48px;
+    color: var(--white); line-height: 1;
+  }
+  .stat-num span { color: var(--red); }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── VISUAL MOCKUP ── */
+  .mockup-section {
+    padding: 0 48px 100px;
+    display: flex; justify-content: center;
+  }
+  .mockup {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 100%; max-width: 900px;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
+  }
+  .mockup-header {
+    background: var(--red);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .mockup-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: white; }
+  .mockup-subtitle { font-size: 11px; color: rgba(255,255,255,0.7); }
+  .mockup-tabs {
+    display: flex; gap: 8px; padding: 12px 20px;
+    background: #141414; border-bottom: 1px solid var(--border);
+  }
+  .mockup-tab {
+    background: #222; border: 1px solid var(--border);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 12px; color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .mockup-tab.active { background: rgba(227,0,15,0.15); border-color: rgba(227,0,15,0.4); color: var(--red); }
+  .mockup-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; min-height: 180px; }
+  .mockup-msg {
+    background: #222; border-radius: 8px; padding: 14px 16px;
+    font-size: 14px; color: var(--text); line-height: 1.6;
+    border-left: 3px solid var(--red);
+    animation: fadeIn 0.5s ease;
+  }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .mockup-input {
+    display: flex; gap: 8px; padding: 12px 20px;
+    background: #141414; border-top: 1px solid var(--border);
+  }
+  .mockup-input-field {
+    flex: 1; background: #222; border: 1px solid var(--border);
+    border-radius: 4px; padding: 10px 14px;
+    color: var(--muted); font-size: 13px; font-family: 'DM Sans', sans-serif;
+  }
+  .mockup-send {
+    background: var(--red); border: none; border-radius: 4px;
+    width: 40px; height: 40px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── FEATURES ── */
+  .section { padding: 100px 48px; }
+  .section-label {
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--red); font-weight: 600; margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 2px; color: var(--white);
+    line-height: 1; margin-bottom: 16px;
+  }
+  .section-sub { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.7; margin-bottom: 64px; }
+
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+  }
+  .feature-card {
+    background: var(--card); padding: 40px 36px;
+    transition: background 0.2s;
+  }
+  .feature-card:hover { background: #1e1e1e; }
+  .feature-icon {
+    width: 48px; height: 48px;
+    background: rgba(227,0,15,0.1); border: 1px solid rgba(227,0,15,0.2);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 24px;
+  }
+  .feature-title { font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+  .feature-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* ── HOW IT WORKS ── */
+  .how-section { padding: 100px 48px; background: var(--dark); }
+  .steps { display: flex; flex-direction: column; gap: 0; max-width: 700px; }
+  .step { display: flex; gap: 32px; padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 64px;
+    color: var(--border); line-height: 1; flex-shrink: 0; width: 80px;
+    transition: color 0.2s;
+  }
+  .step:hover .step-num { color: var(--red); }
+  .step-content {}
+  .step-title { font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+  .step-desc { font-size: 15px; color: var(--muted); line-height: 1.7; }
+
+  /* ── PRICING ── */
+  .pricing-section { padding: 100px 48px; }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    margin-top: 64px;
+  }
+  .plan-card {
+    background: var(--card); padding: 40px 32px;
+    display: flex; flex-direction: column;
+    position: relative; transition: background 0.2s;
+  }
+  .plan-card:hover { background: #1c1c1c; }
+  .plan-card.featured { background: #1a0a0b; }
+  .plan-card.featured::before {
+    content: 'MOST POPULAR';
+    position: absolute; top: 0; left: 0; right: 0;
+    background: var(--red); color: white;
+    text-align: center; padding: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  }
+  .plan-card.featured { padding-top: 52px; }
+  .plan-name {
+    font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+    letter-spacing: 2px; color: var(--white); margin-bottom: 8px;
+  }
+  .plan-price {
+    font-family: 'Bebas Neue', sans-serif; font-size: 64px;
+    color: var(--white); line-height: 1; margin-bottom: 4px;
+  }
+  .plan-price sup { font-size: 28px; vertical-align: super; }
+  .plan-price span { font-size: 20px; color: var(--muted); }
+  .plan-period { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+  .plan-features { flex: 1; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .plan-feature {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: var(--text);
+  }
+  .plan-feature::before { content: '✓'; color: var(--red); font-weight: 700; flex-shrink: 0; }
+  .plan-feature.muted { color: var(--muted); }
+  .plan-feature.muted::before { content: '×'; color: var(--border); }
+
+  .btn-plan {
+    width: 100%; padding: 14px;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text); border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; text-align: center;
+    text-decoration: none; display: block;
+  }
+  .btn-plan:hover { border-color: var(--red); color: var(--red); }
+  .btn-plan.primary {
+    background: var(--red); border-color: var(--red); color: white;
+  }
+  .btn-plan.primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+
+  /* ── FAQ ── */
+  .faq-section { padding: 100px 48px; background: var(--dark); }
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-top: 64px; }
+  .faq-item { background: var(--card); padding: 36px; }
+  .faq-q { font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+  .faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 24px;
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; }
+  .footer-logo span { color: var(--red); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: var(--muted); font-size: 13px; text-decoration: none; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy { color: var(--muted); font-size: 13px; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; width: 100%; max-width: 440px; padding: 40px;
+  }
+  .modal h3 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px;
+    color: var(--white); margin-bottom: 8px;
+  }
+  .modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+  .modal-plan-badge {
+    background: rgba(227,0,15,0.1); border: 1px solid rgba(227,0,15,0.3);
+    color: var(--red); padding: 6px 12px; border-radius: 2px;
+    font-size: 12px; font-weight: 700; letter-spacing: 1px;
+    display: inline-block; margin-bottom: 24px;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .form-group input {
+    width: 100%; background: #222; border: 1px solid var(--border);
+    border-radius: 4px; padding: 12px 14px; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 15px;
+    transition: border-color 0.2s; outline: none;
+  }
+  .form-group input:focus { border-color: var(--red); }
+  .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+  .modal-cancel {
+    flex: 1; padding: 14px; background: transparent;
+    border: 1px solid var(--border); color: var(--muted);
+    border-radius: 4px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    transition: all 0.2s;
+  }
+  .modal-cancel:hover { border-color: var(--muted); color: var(--text); }
+  .modal-submit {
+    flex: 2; padding: 14px; background: var(--red);
+    border: none; color: white; border-radius: 4px;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; transition: background 0.2s;
+  }
+  .modal-submit:hover { background: var(--red-dark); }
+  .modal-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .section, .how-section, .pricing-section, .faq-section { padding: 60px 24px; }
+    .mockup-section { padding: 0 24px 60px; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+    .faq-grid { grid-template-columns: 1fr; }
+    footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MERLIN<span>.</span>POWERBI</div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <a href="#pricing" class="nav-cta">Get Started</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">AI-powered · Power BI</div>
+  <h1>YOUR DATA.<br><em>INSTANT</em><br>ANSWERS.</h1>
+  <p class="hero-sub">
+    Merlin is an <strong>AI analyst embedded directly in Power BI</strong>. Ask questions, get insights, generate charts — without leaving your dashboard.
+  </p>
+  <div class="hero-actions">
+    <a href="#pricing" class="btn-primary">Start free — 20 queries</a>
+    <a href="#how" class="btn-ghost">See how it works</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">5<span>×</span></div>
+      <div class="stat-label">Faster analysis</div>
+    </div>
+    <div>
+      <div class="stat-num">5</div>
+      <div class="stat-label">Data sources at once</div>
+    </div>
+    <div>
+      <div class="stat-num">$9</div>
+      <div class="stat-label">Starting per month</div>
+    </div>
+  </div>
+</section>
+
+<!-- MOCKUP -->
+<div class="mockup-section">
+  <div class="mockup">
+    <div class="mockup-header">
+      <div>
+        <div class="mockup-title">MERLIN POWERBI</div>
+        <div class="mockup-subtitle">AI data analyst · merlinpowerbi.com</div>
+      </div>
+    </div>
+    <div class="mockup-tabs">
+      <div class="mockup-tab active">Dataset 1 (16,414)</div>
+      <div class="mockup-tab">Dataset 2</div>
+      <div class="mockup-tab">Dataset 3</div>
+      <div class="mockup-tab">Dataset 4</div>
+      <div class="mockup-tab">Dataset 5</div>
+    </div>
+    <div class="mockup-body" id="mockup-messages">
+      <div class="mockup-msg">📊 <strong>Analysis complete.</strong> Your fleet is dominated by centrifugal equipment (75%). 130 assets are currently active for work orders. I detected <span style="color:#E3000F">12 potential anomalies</span> in the last 30 days that may require attention.</div>
+    </div>
+    <div class="mockup-input">
+      <input class="mockup-input-field" placeholder="Ask me anything about your data..." id="demo-input">
+      <button class="mockup-send" onclick="sendDemo()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-label">Why Merlin</div>
+  <h2>BUILT FOR<br>DATA TEAMS</h2>
+  <p class="section-sub">Everything you need to turn raw data into decisions — without writing a single DAX formula.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <div class="feature-title">Natural language queries</div>
+      <div class="feature-desc">Ask questions in plain English. No SQL, no DAX, no formulas. Just type and get answers instantly.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📈</div>
+      <div class="feature-title">Auto-generated charts</div>
+      <div class="feature-desc">Merlin automatically creates the right visualization for your data — bar, line, pie, scatter and more.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <div class="feature-title">Automatic alerts</div>
+      <div class="feature-desc">Set conditions and Merlin will analyze your data on load, flagging anomalies and critical changes automatically.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🗃️</div>
+      <div class="feature-title">5 datasets simultaneously</div>
+      <div class="feature-desc">Load up to 5 different tables and ask cross-dataset questions. Merlin understands relationships between your data.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Secure license system</div>
+      <div class="feature-desc">Your data never leaves Power BI unencrypted. License-based access means you control who sees what.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Instant deployment</div>
+      <div class="feature-desc">Import the .pbiviz file, paste your license key, and you're live in under 2 minutes. No IT required.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-label">Setup</div>
+  <h2>LIVE IN<br>3 STEPS</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Download & import the visual</div>
+        <div class="step-desc">Download the Merlin .pbiviz file and import it into Power BI Desktop via the visual marketplace. Takes 30 seconds.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Choose your plan & get your license key</div>
+        <div class="step-desc">Select a plan below. After payment you'll receive your unique license key by email within seconds.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Activate and start analyzing</div>
+        <div class="step-desc">Paste your license key in the activation bar, load your datasets, and start asking questions. That's it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2>SIMPLE,<br>TRANSPARENT</h2>
+  <p class="section-sub">No hidden fees. Cancel anytime. Start free with 20 queries to test before you commit.</p>
+  <div class="pricing-grid">
+
+    <div class="plan-card">
+      <div class="plan-name">Demo</div>
+      <div class="plan-price"><sup>$</sup>0</div>
+      <div class="plan-period">forever · no card needed</div>
+      <div class="plan-features">
+        <div class="plan-feature">20 total queries</div>
+        <div class="plan-feature">All 5 datasets</div>
+        <div class="plan-feature">Charts included</div>
+        <div class="plan-feature muted">Auto-alerts</div>
+        <div class="plan-feature muted">Priority support</div>
+      </div>
+      <a href="#" class="btn-plan" onclick="openModal('Demo','price_1T5D2g2duASEJ1wPDhSqq3cM',0);return false;">Get started free</a>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price"><sup>$</sup>9<span>/mo</span></div>
+      <div class="plan-period">billed monthly</div>
+      <div class="plan-features">
+        <div class="plan-feature">200 queries / month</div>
+        <div class="plan-feature">All 5 datasets</div>
+        <div class="plan-feature">Charts included</div>
+        <div class="plan-feature muted">Auto-alerts</div>
+        <div class="plan-feature muted">Priority support</div>
+      </div>
+      <a href="#" class="btn-plan" onclick="openModal('Starter','price_1T5D0z2duASEJ1wPdPlYCVGx',9);return false;">Get Starter</a>
+    </div>
+
+    <div class="plan-card featured">
+      <div class="plan-name">Professional</div>
+      <div class="plan-price"><sup>$</sup>19<span>/mo</span></div>
+      <div class="plan-period">billed monthly</div>
+      <div class="plan-features">
+        <div class="plan-feature">600 queries / month</div>
+        <div class="plan-feature">All 5 datasets</div>
+        <div class="plan-feature">Charts included</div>
+        <div class="plan-feature">Auto-alerts</div>
+        <div class="plan-feature muted">Priority support</div>
+      </div>
+      <a href="#" class="btn-plan primary" onclick="openModal('Professional','price_1T5D1v2duASEJ1wPnP6T8tiv',19);return false;">Get Professional</a>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-name">Business</div>
+      <div class="plan-price"><sup>$</sup>39<span>/mo</span></div>
+      <div class="plan-period">billed monthly</div>
+      <div class="plan-features">
+        <div class="plan-feature">2,000 queries / month</div>
+        <div class="plan-feature">All 5 datasets</div>
+        <div class="plan-feature">Charts included</div>
+        <div class="plan-feature">Auto-alerts</div>
+        <div class="plan-feature">Priority support</div>
+      </div>
+      <a href="#" class="btn-plan" onclick="openModal('Business','price_1T5D2H2duASEJ1wPB969Wuhx',39);return false;">Get Business</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-label">FAQ</div>
+  <h2>COMMON<br>QUESTIONS</h2>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <div class="faq-q">Does it work with any Power BI dataset?</div>
+      <div class="faq-a">Yes. Merlin works with any table you load into Power BI. Simply drag your fields into the Dataset slots and start asking questions.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is my data secure?</div>
+      <div class="faq-a">Your data is sent securely over HTTPS to process your query and is never stored on our servers. Each query is processed in real-time and discarded immediately.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What happens when I reach my query limit?</div>
+      <div class="faq-a">Merlin will notify you inside the visual. Your limit resets every 30 days from your subscription date. You can upgrade anytime for more queries.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I cancel anytime?</div>
+      <div class="faq-a">Yes, absolutely. No contracts, no commitments. Cancel from your Stripe customer portal at any time and you won't be charged again.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How do I install it in Power BI?</div>
+      <div class="faq-a">Download the .pbiviz file, go to Power BI Desktop → Insert → More visuals → Import from file. Takes under a minute.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What languages does Merlin understand?</div>
+      <div class="faq-a">Merlin understands any language — English, Spanish, French, German, and more. Ask your questions in whatever language feels natural.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">MERLIN<span>.</span>POWERBI</div>
+  <div class="footer-links">
+    <a href="mailto:support@merlinpowerbi.com">support@merlinpowerbi.com</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+  <div class="footer-copy">© 2026 Merlin PowerBI. All rights reserved.</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3>GET STARTED</h3>
+    <p class="modal-sub">Enter your details to proceed to checkout</p>
+    <div class="modal-plan-badge" id="modal-plan-name">STARTER</div>
+    <div class="form-group">
+      <label>Full name</label>
+      <input type="text" id="modal-name" placeholder="John Smith">
+    </div>
+    <div class="form-group">
+      <label>Work email</label>
+      <input type="email" id="modal-email" placeholder="john@company.com">
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-submit" id="modal-submit" onclick="submitCheckout()">Continue to payment →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const BACKEND = 'https://merlin-backend-production-dfa1.up.railway.app';
+  let currentPriceId = '';
+  let currentPlan = '';
+
+  function openModal(plan, priceId, price) {
+    currentPriceId = priceId;
+    currentPlan = plan;
+    document.getElementById('modal-plan-name').textContent = plan.toUpperCase() + (price > 0 ? ` — $${price}/mo` : ' — FREE');
+    document.getElementById('modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  async function submitCheckout() {
+    const name = document.getElementById('modal-name').value.trim();
+    const email = document.getElementById('modal-email').value.trim();
+    if (!name || !email) { alert('Please fill in all fields.'); return; }
+
+    const btn = document.getElementById('modal-submit');
+    btn.disabled = true;
+    btn.textContent = 'Redirecting...';
+
+    try {
+      const res = await fetch(`${BACKEND}/stripe/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId: currentPriceId, email, name })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Unknown error');
+      }
+    } catch (e) {
+      alert('Error: ' + e.message);
+      btn.disabled = false;
+      btn.textContent = 'Continue to payment →';
+    }
+  }
+
+  // Demo mockup animation
+  const demoResponses = [
+    '📊 Your top 3 cost categories are: Maintenance (42%), Parts (31%), and Labor (27%). Total spend this month is significantly above the 6-month average.',
+    '🔔 Alert: Dataset 2 shows 3 records with values exceeding the 99th percentile. These may require immediate review.',
+    '📈 Trend analysis shows a 12% increase in work orders over the last 30 days compared to the previous period.',
+    '⚙️ Based on your data, I recommend prioritizing assets with ACTIVA_OT = true and last maintenance date older than 90 days. That affects 47 records.',
+  ];
+  let demoIdx = 0;
+
+  function sendDemo() {
+    const input = document.getElementById('demo-input');
+    const val = input.value.trim();
+    if (!val) return;
+    const msgs = document.getElementById('mockup-messages');
+    const userMsg = document.createElement('div');
+    userMsg.style.cssText = 'background:#222;border-radius:8px;padding:10px 14px;font-size:13px;color:#aaa;text-align:right;animation:fadeIn 0.3s ease';
+    userMsg.textContent = val;
+    msgs.appendChild(userMsg);
+    input.value = '';
+    setTimeout(() => {
+      const resp = document.createElement('div');
+      resp.className = 'mockup-msg';
+      resp.innerHTML = demoResponses[demoIdx % demoResponses.length];
+      msgs.appendChild(resp);
+      msgs.scrollTop = msgs.scrollHeight;
+      demoIdx++;
+    }, 800);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  document.getElementById('demo-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendDemo();
+  });
+
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+</script>
+</body>
+</html>
