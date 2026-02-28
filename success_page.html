@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Merlin PowerBI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --red: #E3000F; --black: #0a0a0a; --card: #181818; --border: #2a2a2a; --text: #e8e8e8; --muted: #888; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--black); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; padding: 0 48px; height: 64px; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px; color: white; text-decoration: none; }
+  .nav-logo span { color: var(--red); }
+  .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 100px 24px 60px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 56px; max-width: 560px; width: 100%; text-align: center; }
+
+  .success-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(34,197,94,0.1); border: 2px solid rgba(34,197,94,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 0 auto 32px;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 2px; color: white; margin-bottom: 12px; }
+  .subtitle { color: var(--muted); font-size: 16px; line-height: 1.7; margin-bottom: 40px; }
+
+  .email-notice {
+    background: rgba(227,0,15,0.05); border: 1px solid rgba(227,0,15,0.15);
+    border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; text-align: left;
+  }
+  .email-notice strong { color: white; display: block; margin-bottom: 6px; font-size: 15px; }
+  .email-notice p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  .steps { text-align: left; margin-bottom: 40px; }
+  .steps h3 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+  .step { display: flex; gap: 16px; margin-bottom: 16px; align-items: flex-start; }
+  .step-num { background: rgba(227,0,15,0.1); border: 1px solid rgba(227,0,15,0.2); color: var(--red); width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .step-text { font-size: 14px; color: var(--muted); line-height: 1.6; padding-top: 4px; }
+  .step-text strong { color: var(--text); }
+
+  .btn-download {
+    display: block; width: 100%; padding: 16px;
+    background: var(--red); color: white; border-radius: 6px;
+    font-size: 16px; font-weight: 600; text-decoration: none;
+    transition: background 0.2s; margin-bottom: 12px; text-align: center;
+  }
+  .btn-download:hover { background: #b0000b; }
+  .btn-home {
+    display: block; width: 100%; padding: 14px;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); border-radius: 6px; font-size: 14px;
+    text-decoration: none; transition: all 0.2s; text-align: center;
+  }
+  .btn-home:hover { border-color: var(--muted); color: var(--text); }
+
+  @media(max-width:768px) { nav { padding: 0 24px; } .card { padding: 36px 24px; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">MERLIN<span>.</span>POWERBI</a>
+</nav>
+<div class="main">
+  <div class="card">
+    <div class="success-icon">✓</div>
+    <h1>YOU'RE IN!</h1>
+    <p class="subtitle">Your subscription is active. Check your inbox for your license key and activation instructions.</p>
+
+    <div class="email-notice">
+      <strong>📧 Check your email</strong>
+      <p>We've sent your license key to the email you used at checkout. If you don't see it, check your spam folder — it should arrive within a few minutes.</p>
+    </div>
+
+    <div class="steps">
+      <h3>Next steps</h3>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Download the <strong>Merlin .pbiviz file</strong> below</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Open <strong>Power BI Desktop</strong> → Insert → Import visual from file</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Paste your <strong>license key</strong> from the email and click Activate</div>
+      </div>
+    </div>
+
+    <a href="/download" class="btn-download">⬇ Download Merlin PowerBI</a>
+    <a href="/" class="btn-home">Back to home</a>
+  </div>
+</div>
+</body>
+</html>
